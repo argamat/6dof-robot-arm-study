@@ -1,0 +1,190 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usepackage{hyperref}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=2cm}
+
+\title{\textbf{Resolução: Lista de Exercícios - Informática Industrial}}
+\author{Respostas baseadas no material e conhecimentos externos}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Questões de 48 a 57}
+
+\textbf{48. Explique a função do circuito conversor analógico-digital (A/D) usado nos módulos de entrada analógicos.}
+\\
+A função do conversor A/D (ou ADC) é receber um sinal analógico contínuo (como tensões ou correntes geradas por sensores) e gerar um valor digital correspondente na sua saída [1, 2]. A precisão dessa conversão depende da resolução do conversor, ou seja, do seu número de bits [1].
+
+\vspace{0.5cm}
+\textbf{49. Explique a função do circuito conversor digital-analógico (D/A) usado nos módulos de saída analógicos.}
+\\
+O Conversor Digital Analógico (DAC) executa a função oposta ao ADC: ele recebe um valor digital processado pelo CLP (em bits) e o converte em um sinal analógico de saída (como uma tensão elétrica contínua) proporcional a esse valor, permitindo o controle de dispositivos de carga contínua [2-4].
+
+\vspace{0.5cm}
+\textbf{50. Cite os nomes de duas classes de sensores em geral para os módulos de entrada analógica.}
+\\
+Com base no material, podemos citar os \textbf{sensores industriais de processo} genéricos (usados para temperatura, pressão e vazão) [1] e os sensores do tipo \textbf{strain gauge} (células de carga usadas em aplicações de pesagem) [4]. 
+
+\vspace{0.5cm}
+\textbf{51. Liste cinco grandezas físicas comuns medidas pelo módulo de entrada analógico de um CLP.}
+\\
+O material cita explicitamente as medições de \textbf{Temperatura, Pressão e Vazão} [1], bem como a \textbf{Massa/Peso} (citado no problema de pesagem com strain gauge) [4]. Utilizando conhecimento externo para a quinta grandeza, podemos listar o \textbf{Nível} de líquidos em tanques.
+
+\vspace{0.5cm}
+\textbf{52. Liste três dispositivos de campo que são comumente controlados por um módulo de saída analógico de um CLP.}
+\\
+\textit{(Nota: Como o material não lista exemplos explícitos de saídas analógicas, utilizou-se conhecimento externo).} Três dispositivos comuns são: \textbf{1. Válvulas proporcionais} (para controle de fluxo/pressão), \textbf{2. Inversores de frequência} (para controle de velocidade de motores), e \textbf{3. Atuadores pneumáticos/hidráulicos analógicos}.
+
+\vspace{0.5cm}
+\textbf{53. O circuito codificador converte dígitos decimais para binário. Cite o estado da saída (ALTO/BAIXO) de A-B-C-D quando o número decimal for pressionado:}
+\\
+Conforme a lógica demonstrada na Figura 3.17, o dígito 4 gera a saída 0100 (D=Baixo, C=Alto, B=Baixo, A=Baixo), indicando que D é o bit mais significativo e A o menos significativo [5, 6].
+\begin{itemize}
+    \item \textbf{a. 2 for pressionado (0010):} D=Baixo, C=Baixo, B=Alto, A=Baixo [3, 5, 6].
+    \item \textbf{b. 5 for pressionado (0101):} D=Baixo, C=Alto, B=Baixo, A=Alto [3, 5, 6].
+    \item \textbf{c. 7 for pressionado (0111):} D=Baixo, C=Alto, B=Alto, A=Alto [3, 5, 6].
+    \item \textbf{d. 8 for pressionado (1000):} D=Alto, C=Baixo, B=Baixo, A=Baixo [3, 5, 6].
+\end{itemize}
+
+\vspace{0.5cm}
+\textbf{54. Redesenhe o programa corrigido para resolver o problema de excesso de contatos:}
+\\
+Para eliminar o excesso de contatos na lógica original apresentada na figura [5, 6], unifica-se as ramificações combinando a lógica booleana $Y = (A \text{ AND } B) \text{ OR } ((C \text{ OR } E) \text{ AND } D)$. Abaixo está a representação gráfica do Ladder otimizado:
+
+\begin{center}
+\begin{circuitikz}[x=1.5cm, y=1.5cm]
+  % Barramentos
+  \draw (0,0) -- (0,3); 
+  \draw (6,0) -- (6,3); 
+
+  % Ramo 1 (A e B)
+  \draw (0,2.5) -- (0.5,2.5) to[nos, l=A] (2,2.5) to[nos, l=B] (3.5,2.5) -- (4,2.5);
+
+  % Ramo 2 (C em paralelo com E, em série com D)
+  \draw (0,1.5) -- (0.5,1.5) to[nos, l=C] (2,1.5) -- (2.5,1.5);
+  \draw (0,0.5) -- (0.5,0.5) to[nos, l=E] (2,0.5) -- (2,1.5);
+  \draw (2,1.5) to[nos, l=D] (3.5,1.5) -- (4,1.5);
+
+  % Saída Y
+  \draw (4,2.5) -- (4,1.5);
+  \draw (4,2) to[lamp, l=Y] (6,2);
+\end{circuitikz}
+\end{center}
+
+\vspace{0.5cm}
+\textbf{55. Que instrução você escolheria para cada um dos dispositivos de entrada? Justifique.}
+\\
+\textit{(Utilizando conceitos universais de CLP para complementar os enunciados do material [5, 6])}:
+\begin{itemize}
+    \item \textbf{a. Ligar lâmpada quando a esteira invertida:} Contato Normalmente Aberto (NA). Justificativa: A lâmpada deve acender somente se a condição for verdadeira.
+    \item \textbf{b. Operar o solenoide ao acionar botão:} Contato Normalmente Aberto (NA). Justificativa: Pressionar fecha a lógica e energiza o solenoide.
+    \item \textbf{c. Parar o motor ao acionar botão:} Contato Normalmente Fechado (NF). Justificativa: Mantém a continuidade do sistema em repouso e corta a energia do motor quando o botão é pressionado.
+    \item \textbf{d. Chave-limite desencadeia LIGA:} Contato Normalmente Aberto (NA) ativando uma instrução de SET (Latch). Justificativa: O pulso de fechamento do contato é capturado e gravado pela memória SET.
+\end{itemize}
+
+\vspace{0.5cm}
+\textbf{56. Projete e desenhe o esquema a relé convencional quando um botão NF é pressionado:}
+\\
+Quando um botão NF é conectado à bobina de um relé (CR1), o relé fica energizado em repouso [6]. Ao pressioná-lo, o relé desenergiza. Para LIGAR cargas, usamos os contatos NF do relé. Para DESLIGAR cargas, usamos os contatos NA do relé.
+
+\begin{center}
+\begin{circuitikz}[x=2cm, y=1.5cm]
+  % Linhas de alimentação
+  \draw (0,-0.5) -- (0,5.5);
+  \draw (4,-0.5) -- (4,5.5);
+
+  % Rung 1: Botão NF controla o Relé Auxiliar CR1
+  \draw (0,4.5) to[ncs, l=Botão NF] (2,4.5) to[L, l=CR1 (Bobina)] (4,4.5);
+
+  % Rung 2: Ligar Sinaleiro (Requer contato NF de CR1)
+  \draw (0,3.5) to[ncs, l=CR1 (NF)] (2,3.5) to[lamp, l=Sinaleiro] (4,3.5);
+
+  % Rung 3: Dar Partida no Motor (Requer contato NF de CR1)
+  \draw (0,2.5) to[ncs, l=CR1 (NF)] (2,2.5) to[lamp, l=Motor] (4,2.5);
+
+  % Rung 4: Soar Sirene (Requer contato NF de CR1)
+  \draw (0,1.5) to[ncs, l=CR1 (NF)] (2,1.5) to[lamp, l=Sirene] (4,1.5);
+
+  % Rung 5: Desenergizar Solenoide (Requer contato NA de CR1)
+  \draw (0,0.5) to[nos, l=CR1 (NA)] (2,0.5) to[lamp, l=Solenoide] (4,0.5);
+\end{circuitikz}
+\end{center}
+
+\newpage
+\textbf{57. Elabore os gráficos dos 3 tipos de temporizadores (TON, TOF, TP):}
+\\
+Os diagramas de tempo refletem o comportamento ilustrado no documento da fonte [6-8].
+
+\vspace{0.5cm}
+\begin{center}
+% Gráfico TON
+\begin{tikzpicture}[x=1cm, y=1cm]
+  \node at (2.5, 3.5) {\textbf{TON (Atraso para Ligar)}};
+  \draw[->] (0,0) -- (6,0) node[right] {t};
+  \draw[->] (0,0) -- (0,3);
+
+  % IN
+  \draw[green!60!black, thick] (0,2) -- (0.5,2) -- (0.5,2.8) -- (2,2.8) -- (2,2) -- (3,2) -- (3,2.8) -- (5.5,2.8) -- (5.5,2) -- (6,2);
+  \node[left] at (0,2.4) {IN};
+
+  % Q
+  \draw[red, thick] (0,1) -- (1.5,1) -- (1.5,1.8) -- (2,1.8) -- (2,1) -- (4,1) -- (4,1.8) -- (5.5,1.8) -- (5.5,1) -- (6,1);
+  \node[left] at (0,1.4) {Q};
+
+  % ET
+  \draw[blue, thick] (0,0.1) -- (0.5,0.1) -- (1.5,0.9) -- (2,0.9) -- (2,0.1) -- (3,0.1) -- (4,0.9) -- (5.5,0.9) -- (5.5,0.1) -- (6,0.1);
+  \node[left] at (0,0.5) {ET};
+\end{tikzpicture}
+
+\vspace{1cm}
+% Gráfico TOF
+\begin{tikzpicture}[x=1cm, y=1cm]
+  \node at (2.5, 3.5) {\textbf{TOF (Atraso para Desligar)}};
+  \draw[->] (0,0) -- (6,0) node[right] {t};
+  \draw[->] (0,0) -- (0,3);
+
+  % IN
+  \draw[green!60!black, thick] (0,2) -- (0.5,2) -- (0.5,2.8) -- (2,2.8) -- (2,2) -- (6,2);
+  \node[left] at (0,2.4) {IN};
+
+  % Q
+  \draw[red, thick] (0,1) -- (0.5,1) -- (0.5,1.8) -- (3.5,1.8) -- (3.5,1) -- (6,1);
+  \node[left] at (0,1.4) {Q};
+
+  % ET
+  \draw[blue, thick] (0,0.1) -- (2,0.1) -- (3.5,0.9) -- (3.5,0.1) -- (6,0.1);
+  \node[left] at (0,0.5) {ET};
+\end{tikzpicture}
+
+\vspace{1cm}
+% Gráfico TP
+\begin{tikzpicture}[x=1cm, y=1cm]
+  \node at (2.5, 3.5) {\textbf{TP (Temporizador de Pulso)}};
+  \draw[->] (0,0) -- (6,0) node[right] {t};
+  \draw[->] (0,0) -- (0,3);
+
+  % IN
+  \draw[green!60!black, thick] (0,2) -- (0.5,2) -- (0.5,2.8) -- (3.5,2.8) -- (3.5,2) -- (4,2) -- (4,2.8) -- (4.5,2.8) -- (4.5,2) -- (6,2);
+  \node[left] at (0,2.4) {IN};
+
+  % Q
+  \draw[red, thick] (0,1) -- (0.5,1) -- (0.5,1.8) -- (2,1.8) -- (2,1) -- (4,1) -- (4,1.8) -- (5.5,1.8) -- (5.5,1) -- (6,1);
+  \node[left] at (0,1.4) {Q};
+
+  % ET
+  \draw[blue, thick] (0,0.1) -- (0.5,0.1) -- (2,0.9) -- (2,0.1) -- (4,0.1) -- (5.5,0.9) -- (5.5,0.1) -- (6,0.1);
+  \node[left] at (0,0.5) {ET};
+\end{tikzpicture}
+\end{center}
+
+\end{document}

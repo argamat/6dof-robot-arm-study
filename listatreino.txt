@@ -1,0 +1,22 @@
+Atividade Informática Industrial
+
+2- Leitura de sensores, armazenamento de parâmetros, comunicação com outros dispositivos em diferentes protocolos e operações matemáticas e lógicas.
+
+3- Maior confiabilidade, mais flexibilidade, capacidade de comunicação, tempo de resposta rapida, facilidade na verificação de defeitos.
+
+4- A arquitetura aberta permite com que o dispositivo CLP se comunique coisa outros dispositivos e softwares de diferentes fabricantes, já a patenteada é fechada apenas para utilização com itens da mesma fabricante do CLP.
+
+5- As E/S do clp podem ser incorporadas de duas maneira, entradas e saidas fixas, ou seja, ja vem integrada no equipamento e na maioria das vezes não são expansiveis, e modular, onde você utiliza modulos separados de entrada e saida do CLP, permitindo o uso conforme a necessidade.
+
+6- Em uma configuração modular, os módulos de E/S são conectados ao processador por meio de um rack com barramento interno (backplane), que permite a comunicação e alimentação entre a CPU e os módulos encaixados.
+
+7- a) Módulo de processador (CPU): executa o programa, processa as informações e toma decisões com base nas entradas.
+b) Módulo de E/S: realiza a interface com o campo, onde as entradas fazem a leitura dos sinais e as saídas acionam os dispositivos.
+c) Dispositivo de programação: é utilizado para criar, editar, monitorar e transferir o programa para o CLP.
+d) Módulo de fonte de alimentação: fornece energia elétrica para o funcionamento de todos os módulos do CLP.
+8- Computadores ou terminais de programação portateis
+9- Programa é onde fica armazenado todas as instruções do CLP, o que ele fazer e reagir quanto a eventos que ocorrem, já linguagem de programação é a linguagem para desenvolver o programa, sintaxe ou então interface visual utilizada para códificar
+10 - Linguagem Ladder
+12 -  Isso significa que a medida que um evento ocorrer em campo, resultara em uma operação ou em uma saída em tempo real.
+14 - Em sistemas com relé era inviavel trocar o processo foi demandava de alteração de muito fios, consumindo tempo, gerando erros e retrabalho, já o CLP consegue ser reprogramado facilmente
+
